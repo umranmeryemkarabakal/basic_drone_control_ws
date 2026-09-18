@@ -1,4 +1,4 @@
-# Temel Drone Kontrol Node'ları (ROS / MAVROS)
+# basic_drone_control_ws
 
 <p>
   <img src="https://img.shields.io/badge/ROS%20Noetic-22314E?style=for-the-badge&logo=ros&logoColor=white" alt="ROS Noetic" />
@@ -9,49 +9,31 @@
 
 ## Overview
 
-Basic ROS / MAVROS command nodes for a single drone in C++: arm and take off, land, go to a goal point and simple motion control. Meant as building blocks for higher-level autonomy.
+Basic C++ ROS nodes that command a single drone through MAVROS: arm and take off, land, fly to a goal and simple
+motion control. They use ArduPilot's GUIDED mode and work with SITL or a real flight controller. Written as building
+blocks for later autonomy and swarm work.
 
 **Quick start:** `rosrun basic_drone_control takeoff_node`
 
 ## Proje hakkında
 
-Bu depo (repository), ROS ve MAVROS kullanılarak uygulanmış temel drone kontrol node'larını (düğümlerini) içerir.
-Bu node'lar; kalkış, iniş ve hedefe gitme gibi temel uçuş komutlarını sağlar. Üst seviye otonomi ve sürü sistemleri için birer yapı taşı olarak tasarlanmışlardır.
+Tek bir drone'u MAVROS üzerinden komut seviyesinde yöneten C++ ROS düğümleri. ArduPilot'un GUIDED modu kullanılır;
+SITL simülasyonunda ya da gerçek bir uçuş kontrolcüsüyle çalışır. Sonraki otonomi ve sürü çalışmalarına temel olması
+için yazıldı.
 
-Bu çalışma alanı, tek başına çalışan otonom bir sistemden ziyade; öğrenme, deney yapma ve entegrasyon amacıyla oluşturulmuştur.
+## Düğümler
 
-## Genel Bakış
+| Düğüm | Ne yapar |
+|---|---|
+| `takeoff_node` | GUIDED moda alır, arm eder ve `cmd/takeoff` ile kalkar |
+| `landing_node` | `cmd/land` ile iner, ardından disarm eder |
+| `go_to_goal_node` | `local_position/pose` konumunu okuyup `setpoint_velocity/cmd_vel` ile hedefe hız komutu verir |
+| `motion_control` | mod değiştirme, arm, kalkış ve hız komutlarıyla temel hareket |
+| `drone_control` | `setpoint_position/local` ile drone'u (0, 0, 10) konumuna gönderir |
 
-Bu çalışma alanı, simülasyonda veya gerçek donanım üzerinde bir drone'u kontrol etmek için MAVROS ile etkileşime giren basit, komut seviyesindeki ROS node'larını içerir.
+## Kurulum ve çalıştırma
 
-**Uygulanan Yetenekler:**
-
-* Kalkış (Takeoff)
-* İniş (Landing)
-* Hedefe gitme navigasyonu (Go-to-goal)
-* Temel hareket kontrolü
-* Merkezi kontrol mantığı
-
-## Node'lar (Düğümler)
-
-| Node                    | Açıklama                                                              |
-| :---------------------- | :---------------------------------------------------------------------- |
-| `takeoff_node.cpp`    | İHA'yı "arm" eder (motorları aktifleştirir) ve kalkış komutu verir. |
-| `landing_node.cpp`    | Kontrollü bir iniş komutu verir.                                      |
-| `go_to_goal_node.cpp` | Konum/hedef komutları gönderir.                                       |
-| `motion_control.cpp`  | Temel hareketle ilgili komutları yönetir.                             |
-| `drone_control.cpp`   | Çekirdek kontrol mantığı ve MAVROS etkileşimi.                     |
-
-## Ön Gereksinimler
-
-Herhangi bir node çalıştırılmadan önce aşağıdakiler mutlaka çalışıyor olmalıdır:
-
-* ROS (Noetic)
-* MAVROS
-* Bağlı bir uçuş kontrolcüsü veya simülatör (ArduPilot / PX4)
-
-
-## Derleme Talimatları (Build)
+Gereksinimler: ROS Noetic, MAVROS ve çalışan bir ArduPilot SITL ya da uçuş kontrolcüsü.
 
 ```bash
 cd basic_drone_control_ws
@@ -59,14 +41,26 @@ catkin_make
 source devel/setup.bash
 ```
 
-## Kullanım
-
-Önce MAVROS'u çalıştırın.
-
-Örnek çalıştırma:
+Önce MAVROS'u başlatın, sonra düğümleri çalıştırın:
 
 ```bash
+roslaunch mavros apm.launch fcu_url:=udp://127.0.0.1:14550@
 rosrun basic_drone_control takeoff_node
 rosrun basic_drone_control go_to_goal_node
 rosrun basic_drone_control landing_node
+```
+
+## Dosya yapısı
+
+```text
+basic_drone_control_ws/
+└── src/basic_drone_control/
+    ├── CMakeLists.txt
+    ├── package.xml
+    └── src/
+        ├── takeoff_node.cpp
+        ├── landing_node.cpp
+        ├── go_to_goal_node.cpp
+        ├── motion_control.cpp
+        └── drone_control.cpp
 ```
