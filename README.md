@@ -1,5 +1,20 @@
 # Temel Drone Kontrol Node'ları (ROS / MAVROS)
 
+<p>
+  <img src="https://img.shields.io/badge/ROS%20Noetic-22314E?style=for-the-badge&logo=ros&logoColor=white" alt="ROS Noetic" />
+  <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=cplusplus&logoColor=white" alt="C++" />
+  <img src="https://img.shields.io/badge/MAVROS-1F2A44?style=for-the-badge" alt="MAVROS" />
+  <img src="https://img.shields.io/badge/ArduPilot%20SITL-161B22?style=for-the-badge" alt="ArduPilot SITL" />
+</p>
+
+## 🇬🇧 Overview
+
+Basic ROS / MAVROS command nodes for a single drone in C++: arm and take off, land, go to a goal point and simple motion control. Meant as building blocks for higher-level autonomy.
+
+**Quick start:** `rosrun basic_drone_control takeoff_node`
+
+## 🇹🇷 Proje hakkında
+
 Bu depo (repository), ROS ve MAVROS kullanılarak uygulanmış temel drone kontrol node'larını (düğümlerini) içerir.
 Bu node'lar; kalkış, iniş ve hedefe gitme gibi temel uçuş komutlarını sağlar. Üst seviye otonomi ve sürü sistemleri için birer yapı taşı olarak tasarlanmışlardır.
 
