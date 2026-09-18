@@ -7,13 +7,13 @@
   <img src="https://img.shields.io/badge/ArduPilot%20SITL-161B22?style=for-the-badge" alt="ArduPilot SITL" />
 </p>
 
-## 🇬🇧 Overview
+## Overview
 
 Basic ROS / MAVROS command nodes for a single drone in C++: arm and take off, land, go to a goal point and simple motion control. Meant as building blocks for higher-level autonomy.
 
 **Quick start:** `rosrun basic_drone_control takeoff_node`
 
-## 🇹🇷 Proje hakkında
+## Proje hakkında
 
 Bu depo (repository), ROS ve MAVROS kullanılarak uygulanmış temel drone kontrol node'larını (düğümlerini) içerir.
 Bu node'lar; kalkış, iniş ve hedefe gitme gibi temel uçuş komutlarını sağlar. Üst seviye otonomi ve sürü sistemleri için birer yapı taşı olarak tasarlanmışlardır.
